@@ -208,6 +208,8 @@
         .about-content {
             display: flex;
             align-items: center;
+            justify-content: center; /* Ajouté pour centrer le contenu horizontalement */
+            flex-wrap: wrap; /* Ajouté pour une meilleure réactivité */
             gap: 50px;
         }
         
@@ -218,6 +220,10 @@
         .about-image {
             flex: 1;
             text-align: center;
+            min-height: 300px; /* Ajouté pour s'assurer qu'il y a assez d'espace vertical */
+            display: flex; /* Utilisation de flexbox pour centrer l'image à l'intérieur */
+            align-items: center;
+            justify-content: center;
         }
         
         .profile-img {
@@ -1272,6 +1278,81 @@
         
         const skillsSection = document.querySelector('.skills');
         observer.observe(skillsSection);
+
+        // Lightbox functionality (Galerie Monoprix)
+        const lightboxOverlay = document.createElement('div');
+        lightboxOverlay.id = 'lightbox-overlay';
+        lightboxOverlay.className = 'lightbox-overlay';
+        lightboxOverlay.innerHTML = `
+            <div class="lightbox-content-wrapper">
+                <img src="" alt="" class="lightbox-content">
+                <button class="lightbox-close">&times;</button>
+                <button class="lightbox-prev">&#10094;</button>
+                <button class="lightbox-next">&#10095;</button>
+            </div>
+        `;
+        document.body.appendChild(lightboxOverlay);
+
+        const lightboxImg = lightboxOverlay.querySelector('.lightbox-content');
+        const closeBtn = lightboxOverlay.querySelector('.lightbox-close');
+        const prevBtn = lightboxOverlay.querySelector('.lightbox-prev');
+        const nextBtn = lightboxOverlay.querySelector('.lightbox-next');
+
+        let currentImageIndex = 0;
+        let currentGalleryImages = [];
+
+        document.querySelectorAll('.view-all-images-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const hiddenGallery = this.closest('.timeline-content').querySelector('.hidden-gallery');
+                currentGalleryImages = Array.from(hiddenGallery.querySelectorAll('img')).map(img => img.src);
+                currentImageIndex = 0;
+                showImage(currentImageIndex);
+                lightboxOverlay.style.display = 'flex';
+            });
+        });
+
+        // Ouvrir la lightbox en cliquant sur l'image principale
+        document.querySelectorAll('.main-experience-image').forEach(img => {
+            img.addEventListener('click', function() {
+                const hiddenGallery = this.closest('.timeline-content').querySelector('.hidden-gallery');
+                currentGalleryImages = Array.from(hiddenGallery.querySelectorAll('img')).map(img => img.src);
+                const clickedSrc = this.src;
+                currentImageIndex = currentGalleryImages.findIndex(src => src === clickedSrc);
+                if (currentImageIndex === -1) { // Fallback if main image not in gallery
+                    currentImageIndex = 0;
+                }
+                showImage(currentImageIndex);
+                lightboxOverlay.style.display = 'flex';
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            lightboxOverlay.style.display = 'none';
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+            showImage(currentImageIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
+            showImage(currentImageIndex);
+        });
+
+        lightboxOverlay.addEventListener('click', (e) => {
+            if (e.target === lightboxOverlay) {
+                lightboxOverlay.style.display = 'none';
+            }
+        });
+
+        function showImage(index) {
+            if (currentGalleryImages.length > 0) {
+                lightboxImg.src = currentGalleryImages[index];
+            } else {
+                lightboxImg.src = ''; // Clear if no images
+            }
+        }
     </script>
 </body>
 </html>
