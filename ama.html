@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadou - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        /* Styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #27ae60;
+        }
+        
+        /* Sélecteur de langue */
+        .language-selector {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            gap: 10px;
+        }
+        
+        .language-selector select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .language-selector select:hover {
+            border-color: #27ae60;
+        }
+        
+        .language-selector select:focus {
+            outline: none;
+            border-color: #27ae60;
+        }
+        
+        /* Menu Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        /* Section Hero */
+        .hero {
+            background: linear-gradient(135deg, #27ae60, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 150px 0 100px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-download {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-left: 15px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-download:hover {
+            background-color: #229954;
+        }
+        
+        .btn-download:active {
+            transform: scale(0.98);
+        }
+        
+        /* Section À propos */
+        .about {
+            background-color: white;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #27ae60;
+        }
+        
+        /* Section Formation */
+        .education {
+            background-color: #f9f9f9;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #27ae60;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #27ae60;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        /* Section Compétences */
+        .skills {
+            background-color: white;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .skill-category {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .skill-item {
+            margin-bottom: 15px;
+        }
+        
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-level {
+            height: 100%;
+            background-color: #27ae60;
+        }
+        
+        /* Section Contact */
+        .contact {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .contact h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-form {
+            flex: 1;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #34495e;
+            color: white;
+        }
+        
+        .form-control::placeholder {
+            color: #bdc3c7;
+        }
+        
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .social-links {
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #34495e;
+            border-radius: 50%;
+            margin: 0 10px;
+            line-height: 40px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: #fff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+                margin-left: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+            
+            .hero {
+                padding: 120px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+                padding: 0 10px;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            section {
+                padding: 50px 0;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+                text-align: center;
+            }
+            
+            .about-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .about-text {
+                text-align: center;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .skills-container {
+                flex-direction: column;
+            }
+            
+            .skill-category {
+                min-width: 100%;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .btn-download {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .timeline-content {
+                padding: 15px;
+            }
+            
+            .timeline-content h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        .experience-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .experience-gallery img {
+            width: 100%;
+            height: 100px; /* Taille fixe pour les vignettes */
+            object-fit: cover; /* Recadre l'image pour remplir l'espace */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .experience-gallery img:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive pour la galerie */
+        @media (max-width: 600px) {
+            .experience-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 5px;
+            }
+
+            .experience-gallery img {
+                height: 80px;
+            }
+        }
+
+        /* Lightbox CSS */
+        .lightbox-overlay {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Fond sombre semi-transparent */
+            z-index: 2000; /* Assure qu'il est au-dessus de tout */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 80%;
+            max-height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close, .lightbox-prev, .lightbox-next {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            z-index: 2001;
+        }
+
+        .lightbox-close {
+            top: 15px;
+            right: 15px;
+        }
+
+        .lightbox-prev {
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-next {
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Responsive Lightbox */
+        @media (max-width: 768px) {
+            .lightbox-prev, .lightbox-next {
+                font-size: 1.5rem;
+                padding: 5px 10px;
+            }
+            .lightbox-close {
+                font-size: 1.5rem;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Amadou</div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div style="display: flex; align-items: center;">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="fr">🇫🇷 FR</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="es">🇪🇸 ES</option>
+                    </select>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#accueil" data-i18n="nav.home">Accueil</a></li>
+                    <li><a href="#apropos" data-i18n="nav.about">À propos</a></li>
+                    <li><a href="#formation" data-i18n="nav.education">Formation</a></li>
+                    <li><a href="#experiences" data-i18n="nav.experience">Expériences</a></li>
+                    <li><a href="#competences" data-i18n="nav.skills">Compétences</a></li>
+                    <li><a href="#interets" data-i18n="nav.interests">Centres d'intérêt</a></li>
+                    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Hero -->
+    <section id="accueil" class="hero">
+        <div class="container">
+            <h1 data-i18n="hero.title">Amadou, 25 ans – Data Analyst & Chef Crèmerie</h1>
+            <p data-i18n="hero.subtitle">Actuellement en Master 2 Management Stratégie d'Entreprise à Paris</p>
+            <p data-i18n="hero.description">Je combine l'analyse de données et la gestion opérationnelle pour développer des stratégies innovantes.</p>
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;">
+                <a href="#apropos" class="btn" data-i18n="hero.button">En savoir plus</a>
+                <button class="btn-download" id="downloadBtn" data-i18n="hero.download">📥 Télécharger le CV</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section id="apropos" class="about">
+        <div class="container">
+            <h2 data-i18n="about.title">À propos de moi</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-i18n="about.text">Je suis Data Analyst et Chef de rayon Crèmerie chez Monoprix Vaugirard (Paris 15e). Dans le cadre de mon Master 2 en Management Stratégie d'Entreprise, j'allie compétences techniques et managériales. Mon objectif est de mettre l'analyse de données au service de la performance commerciale et de la gestion d'équipes.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="livret-employabilite.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
+                            📚 Télécharger mon Livret d'Employabilité
+                        </a>
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images%20/photo.png" alt="Photo de profil Amadou" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Formation -->
+    <section id="formation" class="education">
+        <div class="container">
+            <h2 data-i18n="education.title">Mon parcours académique</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Master 2 Management Stratégie d'Entreprise</h3>
+                        <p>CFA Stephenson - 48 rue Stephenson, 75018 Paris</p>
+                        <p>2023 – Présent</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Bachelor Chargé de Gestion Commerciale</h3>
+                        <p>CFA Cifca</p>
+                        <p>2022 – 2023</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>BTS Management Commercial Opérationnel</h3>
+                        <p>Lycée Jules Siegfried</p>
+                        <p>2019 – 2021</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Bac Pro Commerce (mention assez bien)</h3>
+                        <p>Lycée Suzanne Valadon</p>
+                        <p>2017 – 2019</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Brevet des collèges</h3>
+                        <p>Collège Marx Dormoy</p>
+                        <p>2014 – 2015</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Expériences -->
+    <section id="experiences" class="about">
+        <div class="container">
+            <h2 data-i18n="experience.title">Mes expériences professionnelles</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Data Analyst & Chef Crèmerie</h3>
+                        <p>Alternance dans le cadre de mon Master</p>
+                        <p><strong>Monoprix Vaugirard (Paris 15e)</strong></p>
+                        <p>2024 – Présent</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Analyse des données de ventes et optimisation des stocks</li>
+                            <li>Gestion du rayon crèmerie (approvisionnement, merchandising, relation fournisseurs)</li>
+                            <li>Encadrement d'équipe et suivi des performances</li>
+                        </ul>
+                        <!-- Image mise en avant et bouton pour la galerie -->
+                        <div class="experience-showcase" style="margin-top: 20px; text-align: center;">
+                            <img src="mono1.jpeg" alt="Vue d'ensemble de l'expérience Monoprix" class="main-experience-image" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer;">
+                            <button class="btn view-all-images-btn" style="margin-top: 15px; background-color: #27ae60;">Voir toutes les images</button>
+                        </div>
+                        <!-- La galerie complète (mono1 à mono12) pour la lightbox (initialement cachée) -->
+                        <div class="hidden-gallery" style="display: none;">
+                            <img src="mono1.jpeg" alt="Image Monoprix 1">
+                            <img src="mono13.jpg" alt="Inventaire et ruptures">
+                            <img src="mono3.jpeg" alt="Image Monoprix 3">
+                            <img src="mono4.jpeg" alt="Image Monoprix 4">
+                            <img src="mono5.jpeg" alt="Image Monoprix 5">
+                            <img src="mono6.jpeg" alt="Image Monoprix 6">
+                            <img src="mono7.jpeg" alt="Image Monoprix 7">
+                            <img src="mono8.jpeg" alt="Image Monoprix 8">
+                            <img src="mono10.jpeg" alt="Image Monoprix 10">
+                            <img src="mono11.jpeg" alt="Image Monoprix 11">
+                            <img src="mono18.jpg" alt="Image Monoprix 18">
+                        </div>
+                    </div>
+                </div>
+                <!-- Nouvelle entrée : Projet Master 1 Logistique -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Projet Master 1 : Optimisation des Flux Logistiques</h3>
+                        <p>Étude menée dans le cadre de ma première année de Master</p>
+                        <p><strong>Objectif :</strong> Quels leviers mettre en place pour améliorer la gestion des flux logistiques et limiter l'encombrement des espaces de vente, afin de préserver la satisfaction et la fidélisation des clients ?</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Analyse des processus logistiques existants et identification des points de blocage.</li>
+                            <li>Proposition de stratégies pour optimiser le stockage et la circulation des marchandises.</li>
+                            <li>Impact sur l'expérience client et la performance commerciale.</li>
+                        </ul>
+                        <p style="margin-top: 20px;">
+                            <a href="amadoumem.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
+                                📥 Télécharger le mémoire complet
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Assistant de direction</h3>
+                        <p>Alternance dans le cadre de mon Bachelor</p>
+                        <p><strong>Carrefour City Paris Belleville</strong></p>
+                        <p>2022 – 2023</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Supervision des tâches administratives</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Responsable du rayon Droguerie/Parfumerie/Hygiène</h3>
+                        <p>Alternance dans le cadre de mon Bachelor</p>
+                        <p><strong>Carrefour City Paris Belleville</strong></p>
+                        <p>2022 – 2023</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Coordination des approvisionnements, relation avec les commerciaux</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Nouvelle entrée : Projet Bachelor / Carrefour -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Projet Bachelor : Optimisation Commerciale & Lutte Anti-Gaspillage</h3>
+                        <p>Étude menée dans le cadre de mon Bachelor et de mon expérience chez Carrefour</p>
+                        <p><strong>Problématique :</strong> Comment améliorer nos performances commerciales et notre offre de produits tout en luttant contre le gaspillage alimentaire ?</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Analyse des pratiques de gestion des stocks et de l'offre produit.</li>
+                            <li>Proposition de stratégies pour réduire le gaspillage alimentaire tout en optimisant les ventes.</li>
+                            <li>Impact sur la rentabilité et l'image de marque.</li>
+                        </ul>
+                        <p style="margin-top: 20px;">
+                            <a href="grandoral.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
+                                📥 Télécharger le Grand Oral / Dossier Projet
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Vendeur</h3>
+                        <p><strong>Marvin Chaussure (Paris 18e)</strong></p>
+                        <p>Été 2019</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Accueil, conseil clients, gestion du rayon bottines, réassort</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Stages divers</h3>
+                        <p><strong>Darty, Tati, La Halle, La Chaise Longue</strong></p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Accueil, inventaires, soldes, mise en avant des rayons</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Compétences -->
+    <section id="competences" class="skills">
+        <div class="container">
+            <h2 data-i18n="skills.title">Mes compétences</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Analyse de données</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Excel avancé</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Power BI</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>SQL</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 75%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Management opérationnel</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Gestion d'équipe</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Organisation du rayon</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Relation fournisseurs</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Stratégie commerciale</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Optimisation des ventes</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Fidélisation client</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>E-commerce & digital</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Suivi des ventes en ligne</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 75%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Outils numériques</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Recrutement & RH</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Intégration et gestion des équipes</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%; background-color: #27ae60;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Centres d'intérêt -->
+    <section id="interets" class="education">
+        <div class="container">
+            <h2 data-i18n="interests.title">Centres d'intérêt</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li style="margin-bottom: 15px;">🥊 <strong>Boxe</strong> - Pratique depuis 3 ans</li>
+                        <li style="margin-bottom: 15px;">🧘 <strong>Méditation</strong> - Membre actif d'un club de méditation</li>
+                        <li style="margin-bottom: 15px;">📚 <strong>Lecture</strong> - Romans policiers et développement personnel</li>
+                        <li style="margin-bottom: 15px;">💻 <strong>Veille technologique</strong> - Nouvelles technologies et data science</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 data-i18n="contact.title">Contactez-moi</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h3>Adresse</h3>
+                            <p>Paris 11ème, France</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>syamadou16@outlook.fr</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <h3>Téléphone</h3>
+                            <p>+33 7 53 59 20 67</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="user_name" name="user_name" class="form-control" data-i18n-placeholder="contact.form.name" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="user_email" name="user_email" class="form-control" data-i18n-placeholder="contact.form.email" placeholder="Votre email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" class="form-control" data-i18n-placeholder="contact.form.subject" placeholder="Sujet" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" class="form-control" data-i18n-placeholder="contact.form.message" placeholder="Votre message" required></textarea>
+                        </div>
+                        <div id="formMessage" style="display: none; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center;"></div>
+                        <button type="submit" class="btn" id="submitBtn" data-i18n="contact.form.submit">Envoyer le message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/amadou-sy-1b7784219" target="_blank">LinkedIn</a>
+            </div>
+            <p>&copy; 2023 Amadou - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox HTML Structure (à placer avant la balise de fermeture </body>) -->
+    <div class="lightbox-overlay">
+        <div class="lightbox-content">
+            <img src="" alt="Image agrandie">
+            <button class="lightbox-close">&times;</button>
+            <button class="lightbox-prev">&lt;</button>
+            <button class="lightbox-next">&gt;</button>
+        </div>
+    </div>
+
+    <script>
+        // Système de traduction multilingue
+        const translations = {
+            fr: {
+                'nav.home': 'Accueil',
+                'nav.about': 'À propos',
+                'nav.education': 'Formation',
+                'nav.experience': 'Expériences',
+                'nav.skills': 'Compétences',
+                'nav.interests': 'Centres d\'intérêt',
+                'nav.contact': 'Contact',
+                'hero.title': 'Amadou, 25 ans – Data Analyst & Chef Crèmerie',
+                'hero.subtitle': 'Actuellement en Master 2 Management Stratégie d\'Entreprise à Paris',
+                'hero.description': 'Je combine l\'analyse de données et la gestion opérationnelle pour développer des stratégies innovantes.',
+                'hero.button': 'En savoir plus',
+                'hero.download': '📥 Télécharger le CV',
+                'about.title': 'À propos de moi',
+                'about.text': 'Je suis Data Analyst et Chef de rayon Crèmerie chez Monoprix Vaugirard (Paris 15e). Dans le cadre de mon Master 2 en Management Stratégie d\'Entreprise, j\'allie compétences techniques et managériales. Mon objectif est de mettre l\'analyse de données au service de la performance commerciale et de la gestion d\'équipes.',
+                'education.title': 'Mon parcours académique',
+                'experience.title': 'Mes expériences professionnelles',
+                'skills.title': 'Mes compétences',
+                'interests.title': 'Centres d\'intérêt',
+                'contact.title': 'Contactez-moi',
+                'contact.form.name': 'Votre nom',
+                'contact.form.email': 'Votre email',
+                'contact.form.subject': 'Sujet',
+                'contact.form.message': 'Votre message',
+                'contact.form.submit': 'Envoyer le message'
+            },
+            en: {
+                'nav.home': 'Home',
+                'nav.about': 'About',
+                'nav.education': 'Education',
+                'nav.experience': 'Experience',
+                'nav.skills': 'Skills',
+                'nav.interests': 'Interests',
+                'nav.contact': 'Contact',
+                'hero.title': 'Amadou, 25 years old – Data Analyst & Dairy Department Manager',
+                'hero.subtitle': 'Currently pursuing Master 2 in Business Strategy Management in Paris',
+                'hero.description': 'I combine data analysis and operational management to develop innovative strategies.',
+                'hero.button': 'Learn more',
+                'hero.download': '📥 Download CV',
+                'about.title': 'About me',
+                'about.text': 'I am a Data Analyst and Dairy Department Manager at Monoprix Vaugirard (Paris 15th). As part of my Master 2 in Business Strategy Management, I combine technical and managerial skills. My goal is to put data analysis at the service of commercial performance and team management.',
+                'education.title': 'My academic background',
+                'experience.title': 'My professional experience',
+                'skills.title': 'My skills',
+                'interests.title': 'Interests',
+                'contact.title': 'Contact me',
+                'contact.form.name': 'Your name',
+                'contact.form.email': 'Your email',
+                'contact.form.subject': 'Subject',
+                'contact.form.message': 'Your message',
+                'contact.form.submit': 'Send message'
+            },
+            es: {
+                'nav.home': 'Inicio',
+                'nav.about': 'Acerca de',
+                'nav.education': 'Formación',
+                'nav.experience': 'Experiencia',
+                'nav.skills': 'Habilidades',
+                'nav.interests': 'Intereses',
+                'nav.contact': 'Contacto',
+                'hero.title': 'Amadou, 25 años – Analista de Datos y Jefe de Quesería',
+                'hero.subtitle': 'Actualmente cursando Master 2 en Gestión Estratégica de Empresas en París',
+                'hero.description': 'Combino el análisis de datos y la gestión operativa para desarrollar estrategias innovadoras.',
+                'hero.button': 'Saber más',
+                'hero.download': '📥 Descargar CV',
+                'about.title': 'Acerca de mí',
+                'about.text': 'Soy Analista de Datos y Jefe del departamento de Quesería en Monoprix Vaugirard (París 15º). Como parte de mi Master 2 en Gestión Estratégica de Empresas, combino habilidades técnicas y gerenciales. Mi objetivo es poner el análisis de datos al servicio del rendimiento comercial y la gestión de equipos.',
+                'education.title': 'Mi formación académica',
+                'experience.title': 'Mi experiencia profesional',
+                'skills.title': 'Mis habilidades',
+                'interests.title': 'Intereses',
+                'contact.title': 'Contáctame',
+                'contact.form.name': 'Tu nombre',
+                'contact.form.email': 'Tu email',
+                'contact.form.subject': 'Asunto',
+                'contact.form.message': 'Tu mensaje',
+                'contact.form.submit': 'Enviar mensaje'
+            }
+        };
+
+        // Fonction pour changer la langue
+        function changeLanguage(lang) {
+            // Sauvegarder la préférence
+            localStorage.setItem('preferredLanguage', lang);
+            
+            // Mettre à jour le sélecteur
+            document.getElementById('languageSelect').value = lang;
+            
+            // Traduire tous les éléments avec data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Traduire les placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+        }
+
+        // Initialiser la langue au chargement
+        const savedLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+        changeLanguage(savedLanguage);
+
+        // Écouter les changements du sélecteur de langue
+        document.getElementById('languageSelect').addEventListener('change', function(e) {
+            changeLanguage(e.target.value);
+        });
+
+        // Fonction de téléchargement PDF
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Désactiver le bouton pendant la génération
+            const btn = this;
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Génération...';
+            
+            // Créer un élément temporaire avec le contenu à imprimer
+            const element = document.body;
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'CV_Amadou.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+            
+            // Générer le PDF
+            html2pdf().set(opt).from(element).save().then(function() {
+                // Réactiver le bouton
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }).catch(function(error) {
+                console.error('Erreur lors de la génération du PDF:', error);
+                btn.disabled = false;
+                btn.textContent = originalText;
+                alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
+            });
+        });
+
+        // Menu Hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Navigation fluide
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Initialiser EmailJS
+        (function() {
+            emailjs.init("OIuqixmj8yf19bfxh"); // Remplacez par votre clé publique EmailJS
+        })();
+
+        // Gestion du formulaire de contact
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            const originalText = submitBtn.textContent;
+            
+            // Désactiver le bouton et afficher un message de chargement
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Envoi en cours...';
+            formMessage.style.display = 'none';
+            
+            // Préparer les paramètres pour EmailJS
+            const templateParams = {
+                from_name: document.getElementById('user_name').value,
+                from_email: document.getElementById('user_email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                to_email: 'syamadou16@outlook.fr' // Votre adresse email
+            };
+            
+            // Envoyer l'email via EmailJS
+            emailjs.send('service_p5yoe1c', 'template_c1995sh', templateParams)
+                .then(function(response) {
+                    // Succès
+                    formMessage.style.display = 'block';
+                    formMessage.style.backgroundColor = '#27ae60';
+                    formMessage.style.color = 'white';
+                    formMessage.textContent = '✅ Message envoyé avec succès ! Je vous répondrai bientôt.';
+                    
+                    // Réinitialiser le formulaire
+                    document.getElementById('contactForm').reset();
+                    
+                    // Réactiver le bouton
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    
+                    // Masquer le message après 5 secondes
+                    setTimeout(function() {
+                        formMessage.style.display = 'none';
+                    }, 5000);
+                }, function(error) {
+                    // Erreur
+                    formMessage.style.display = 'block';
+                    formMessage.style.backgroundColor = '#e74c3c';
+                    formMessage.style.color = 'white';
+                    formMessage.textContent = '❌ Erreur lors de l\'envoi. Veuillez réessayer ou me contacter directement à syamadou16@outlook.fr';
+                    
+                    // Réactiver le bouton
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    
+                    console.error('Erreur EmailJS:', error);
+                });
+        });
+        
+        // Animation des barres de compétences au défilement
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillBars = entry.target.querySelectorAll('.skill-level');
+                    skillBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 300);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        const skillsSection = document.querySelector('.skills');
+        observer.observe(skillsSection);
+
+        // Lightbox JavaScript
+        const lightboxOverlay = document.querySelector('.lightbox-overlay');
+        const lightboxImg = document.querySelector('.lightbox-content img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+        const mainExperienceImage = document.querySelector('.main-experience-image');
+        const viewAllImagesBtn = document.querySelector('.view-all-images-btn');
+        const hiddenGallery = document.querySelector('.hidden-gallery');
+        let currentImageIndex = 0;
+        let galleryImages = [];
+
+        // Fonction pour ouvrir la lightbox
+        function openLightbox(index) {
+            galleryImages = Array.from(hiddenGallery.querySelectorAll('img')).map(img => img.src);
+            if (galleryImages.length === 0) return; // Ne rien faire si la galerie est vide
+
+            currentImageIndex = index;
+            lightboxImg.src = galleryImages[currentImageIndex];
+            lightboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Empêche le défilement du corps
+        }
+
+        // Fonction pour fermer la lightbox
+        function closeLightbox() {
+            lightboxOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Rétablit le défilement du corps
+        }
+
+        // Fonction pour afficher l'image suivante
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            lightboxImg.src = galleryImages[currentImageIndex];
+        }
+
+        // Fonction pour afficher l'image précédente
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            lightboxImg.src = galleryImages[currentImageIndex];
+        }
+
+        // Événements
+        mainExperienceImage.addEventListener('click', () => openLightbox(0)); // Ouvre la première image au clic sur l'image principale
+        viewAllImagesBtn.addEventListener('click', () => openLightbox(0)); // Ouvre la galerie au clic sur le bouton
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', showNextImage);
+        lightboxPrev.addEventListener('click', showPrevImage);
+
+        // Fermer la lightbox en cliquant sur l'overlay (mais pas sur l'image)
+        lightboxOverlay.addEventListener('click', (e) => {
+            if (e.target === lightboxOverlay) {
+                closeLightbox();
+            }
+        });
+
+        // Fermer avec la touche Échap
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightboxOverlay.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+    </script>
+</body>
+</html>
+
