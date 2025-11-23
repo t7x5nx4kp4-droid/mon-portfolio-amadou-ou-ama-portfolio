@@ -569,123 +569,6 @@
                 font-size: 1.1rem;
             }
         }
-
-        .experience-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .experience-gallery img {
-            width: 100%;
-            height: 100px; /* Taille fixe pour les vignettes */
-            object-fit: cover; /* Recadre l'image pour remplir l'espace */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            cursor: pointer;
-        }
-
-        .experience-gallery img:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Responsive pour la galerie */
-        @media (max-width: 600px) {
-            .experience-gallery {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                gap: 5px;
-            }
-
-            .experience-gallery img {
-                height: 80px;
-            }
-        }
-
-        /* Lightbox CSS */
-        .lightbox-overlay {
-            display: none; /* Caché par défaut */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Fond sombre semi-transparent */
-            z-index: 2000; /* Assure qu'il est au-dessus de tout */
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .lightbox-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .lightbox-content {
-            position: relative;
-            max-width: 80%;
-            max-height: 80%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .lightbox-close, .lightbox-prev, .lightbox-next {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 2rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            z-index: 2001;
-        }
-
-        .lightbox-close {
-            top: 15px;
-            right: 15px;
-        }
-
-        .lightbox-prev {
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .lightbox-next {
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Responsive Lightbox */
-        @media (max-width: 768px) {
-            .lightbox-prev, .lightbox-next {
-                font-size: 1.5rem;
-                padding: 5px 10px;
-            }
-            .lightbox-close {
-                font-size: 1.5rem;
-                padding: 5px 10px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -739,11 +622,6 @@
             <div class="about-content">
                 <div class="about-text">
                     <p data-i18n="about.text">Je suis Data Analyst et Chef de rayon Crèmerie chez Monoprix Vaugirard (Paris 15e). Dans le cadre de mon Master 2 en Management Stratégie d'Entreprise, j'allie compétences techniques et managériales. Mon objectif est de mettre l'analyse de données au service de la performance commerciale et de la gestion d'équipes.</p>
-                    <p style="margin-top: 20px;">
-                        <a href="livret-employabilite.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
-                            📚 Télécharger mon Livret d'Employabilité
-                        </a>
-                    </p>
                 </div>
                 <div class="about-image">
                     <img src="images%20/photo.png" alt="Photo de profil Amadou" class="profile-img">
@@ -804,7 +682,6 @@
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Data Analyst & Chef Crèmerie</h3>
-                        <p>Alternance dans le cadre de mon Master</p>
                         <p><strong>Monoprix Vaugirard (Paris 15e)</strong></p>
                         <p>2024 – Présent</p>
                         <ul style="margin-top: 10px; padding-left: 20px;">
@@ -812,60 +689,11 @@
                             <li>Gestion du rayon crèmerie (approvisionnement, merchandising, relation fournisseurs)</li>
                             <li>Encadrement d'équipe et suivi des performances</li>
                         </ul>
-                        <!-- Image mise en avant et bouton pour la galerie -->
-                        <div class="experience-showcase" style="margin-top: 20px; text-align: center;">
-                            <img src="mono1.jpeg" alt="Vue d'ensemble de l'expérience Monoprix" class="main-experience-image" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer;">
-                            <button class="btn view-all-images-btn" style="margin-top: 15px; background-color: #27ae60;">Voir toutes les images</button>
-                        </div>
-                        <!-- La galerie complète (mono1 à mono12) pour la lightbox (initialement cachée) -->
-                        <div class="hidden-gallery" style="display: none;">
-                            <img src="mono1.jpeg" alt="Image Monoprix 1">
-                            <img src="mono13.jpg" alt="Inventaire et ruptures">
-                            <img src="mono3.jpeg" alt="Image Monoprix 3">
-                            <img src="mono4.jpeg" alt="Image Monoprix 4">
-                            <img src="mono5.jpeg" alt="Image Monoprix 5">
-                            <img src="mono6.jpeg" alt="Image Monoprix 6">
-                            <img src="mono7.jpeg" alt="Image Monoprix 7">
-                            <img src="mono8.jpeg" alt="Image Monoprix 8">
-                            <img src="mono10.jpeg" alt="Image Monoprix 10">
-                            <img src="mono11.jpeg" alt="Image Monoprix 11">
-                            <img src="mono18.jpg" alt="Image Monoprix 18">
-                        </div>
-                    </div>
-                </div>
-                <!-- Nouvelle entrée : Projet Master 1 Logistique -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Projet Master 1 : Optimisation des Flux Logistiques</h3>
-                        <p>Étude menée dans le cadre de ma première année de Master</p>
-                        <p><strong>Objectif :</strong> Quels leviers mettre en place pour améliorer la gestion des flux logistiques et limiter l'encombrement des espaces de vente, afin de préserver la satisfaction et la fidélisation des clients ?</p>
-                        <ul style="margin-top: 10px; padding-left: 20px;">
-                            <li>Analyse des processus logistiques existants et identification des points de blocage.</li>
-                            <li>Proposition de stratégies pour optimiser le stockage et la circulation des marchandises.</li>
-                            <li>Impact sur l'expérience client et la performance commerciale.</li>
-                        </ul>
-                        <p style="margin-top: 20px;">
-                            <a href="amadoumem.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
-                                📥 Télécharger le mémoire complet
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Assistant de direction</h3>
-                        <p>Alternance dans le cadre de mon Bachelor</p>
-                        <p><strong>Carrefour City Paris Belleville</strong></p>
-                        <p>2022 – 2023</p>
-                        <ul style="margin-top: 10px; padding-left: 20px;">
-                            <li>Supervision des tâches administratives</li>
-                        </ul>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Responsable du rayon Droguerie/Parfumerie/Hygiène</h3>
-                        <p>Alternance dans le cadre de mon Bachelor</p>
                         <p><strong>Carrefour City Paris Belleville</strong></p>
                         <p>2022 – 2023</p>
                         <ul style="margin-top: 10px; padding-left: 20px;">
@@ -873,22 +701,14 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Nouvelle entrée : Projet Bachelor / Carrefour -->
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Projet Bachelor : Optimisation Commerciale & Lutte Anti-Gaspillage</h3>
-                        <p>Étude menée dans le cadre de mon Bachelor et de mon expérience chez Carrefour</p>
-                        <p><strong>Problématique :</strong> Comment améliorer nos performances commerciales et notre offre de produits tout en luttant contre le gaspillage alimentaire ?</p>
+                        <h3>Assistant de direction</h3>
+                        <p><strong>Carrefour City Paris Belleville</strong></p>
+                        <p>2022 – 2023</p>
                         <ul style="margin-top: 10px; padding-left: 20px;">
-                            <li>Analyse des pratiques de gestion des stocks et de l'offre produit.</li>
-                            <li>Proposition de stratégies pour réduire le gaspillage alimentaire tout en optimisant les ventes.</li>
-                            <li>Impact sur la rentabilité et l'image de marque.</li>
+                            <li>Supervision des tâches administratives</li>
                         </ul>
-                        <p style="margin-top: 20px;">
-                            <a href="grandoral.pdf" target="_blank" class="btn" style="background-color: #27ae60;">
-                                📥 Télécharger le Grand Oral / Dossier Projet
-                            </a>
-                        </p>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -1118,16 +938,6 @@
         </div>
     </footer>
 
-    <!-- Lightbox HTML Structure (à placer avant la balise de fermeture </body>) -->
-    <div class="lightbox-overlay">
-        <div class="lightbox-content">
-            <img src="" alt="Image agrandie">
-            <button class="lightbox-close">&times;</button>
-            <button class="lightbox-prev">&lt;</button>
-            <button class="lightbox-next">&gt;</button>
-        </div>
-    </div>
-
     <script>
         // Système de traduction multilingue
         const translations = {
@@ -1318,7 +1128,7 @@
         
         // Initialiser EmailJS
         (function() {
-            emailjs.init("OIuqixmj8yf19bfxh"); // Remplacez par votre clé publique EmailJS
+            emailjs.init("YOUR_PUBLIC_KEY"); // Remplacez par votre clé publique EmailJS
         })();
 
         // Gestion du formulaire de contact
@@ -1344,7 +1154,7 @@
             };
             
             // Envoyer l'email via EmailJS
-            emailjs.send('service_p5yoe1c', 'template_c1995sh', templateParams)
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
                 .then(function(response) {
                     // Succès
                     formMessage.style.display = 'block';
@@ -1400,69 +1210,6 @@
         
         const skillsSection = document.querySelector('.skills');
         observer.observe(skillsSection);
-
-        // Lightbox JavaScript
-        const lightboxOverlay = document.querySelector('.lightbox-overlay');
-        const lightboxImg = document.querySelector('.lightbox-content img');
-        const lightboxClose = document.querySelector('.lightbox-close');
-        const lightboxPrev = document.querySelector('.lightbox-prev');
-        const lightboxNext = document.querySelector('.lightbox-next');
-        const mainExperienceImage = document.querySelector('.main-experience-image');
-        const viewAllImagesBtn = document.querySelector('.view-all-images-btn');
-        const hiddenGallery = document.querySelector('.hidden-gallery');
-        let currentImageIndex = 0;
-        let galleryImages = [];
-
-        // Fonction pour ouvrir la lightbox
-        function openLightbox(index) {
-            galleryImages = Array.from(hiddenGallery.querySelectorAll('img')).map(img => img.src);
-            if (galleryImages.length === 0) return; // Ne rien faire si la galerie est vide
-
-            currentImageIndex = index;
-            lightboxImg.src = galleryImages[currentImageIndex];
-            lightboxOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Empêche le défilement du corps
-        }
-
-        // Fonction pour fermer la lightbox
-        function closeLightbox() {
-            lightboxOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Rétablit le défilement du corps
-        }
-
-        // Fonction pour afficher l'image suivante
-        function showNextImage() {
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-            lightboxImg.src = galleryImages[currentImageIndex];
-        }
-
-        // Fonction pour afficher l'image précédente
-        function showPrevImage() {
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-            lightboxImg.src = galleryImages[currentImageIndex];
-        }
-
-        // Événements
-        mainExperienceImage.addEventListener('click', () => openLightbox(0)); // Ouvre la première image au clic sur l'image principale
-        viewAllImagesBtn.addEventListener('click', () => openLightbox(0)); // Ouvre la galerie au clic sur le bouton
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightboxNext.addEventListener('click', showNextImage);
-        lightboxPrev.addEventListener('click', showPrevImage);
-
-        // Fermer la lightbox en cliquant sur l'overlay (mais pas sur l'image)
-        lightboxOverlay.addEventListener('click', (e) => {
-            if (e.target === lightboxOverlay) {
-                closeLightbox();
-            }
-        });
-
-        // Fermer avec la touche Échap
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightboxOverlay.classList.contains('active')) {
-                closeLightbox();
-            }
-        });
-
     </script>
 </body>
 </html>
