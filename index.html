@@ -576,6 +576,108 @@
             }
         }
     </style>
+    <style>
+        .lightbox-overlay {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex; /* Utilise flexbox pour centrer le contenu */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .lightbox-content-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 90%; /* Pour laisser de l'espace aux flèches */
+            max-height: 90%;
+        }
+        
+        .lightbox-content {
+            max-width: 80%; /* Ajusté précédemment pour le 'dézoom' */
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close,
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .lightbox-close {
+            top: 15px;
+            right: 15px;
+            font-size: 2.5rem;
+            line-height: 1;
+            padding: 5px 15px;
+        }
+
+        .lightbox-prev {
+            left: -50px; /* Ajusté pour positionner à l'extérieur du wrapper */
+        }
+
+        .lightbox-next {
+            right: -50px; /* Ajusté pour positionner à l'extérieur du wrapper */
+        }
+
+        /* Media queries pour la lightbox */
+        @media (max-width: 768px) {
+            .lightbox-prev, .lightbox-next {
+                font-size: 1.5rem;
+                padding: 5px 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 10px; /* Ajusté pour les petits écrans */
+            }
+            .lightbox-next {
+                right: 10px;
+                left: auto; /* Supprime le left des petits écrans */
+            }
+            .lightbox-close {
+                font-size: 1.5rem;
+                padding: 5px 10px;
+                top: 10px;
+                right: 10px;
+            }
+            .lightbox-content-wrapper {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            .lightbox-prev {
+                left: 10px;
+                right: auto;
+            }
+            .lightbox-next {
+                right: 10px;
+                left: auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -635,7 +737,7 @@
                     </p>
                 </div>
                 <div class="about-image">
-                    <img src="images/photo.png" alt="Photo de profil Amadou" class="profile-img">
+                    <img src="images/test.png" alt="Photo de profil Amadou" class="profile-img">
                 </div>
             </div>
         </div>
